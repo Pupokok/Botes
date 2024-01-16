@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/feofan/repo/project_python/bot_tg_Prince/venv"
+VIRTUAL_ENV="/home/feofan/botes/bot_tg_Prince/venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

@@ -1,8 +1,5 @@
 from aiogram import types
 
-
-
-
 kb_client = types.ReplyKeyboardMarkup(resize_keyboard=True)
 button_1 = types.KeyboardButton(text='Каталог')
 button_2 = types.KeyboardButton(text='Secret')
@@ -10,58 +7,63 @@ button_2 = types.KeyboardButton(text='Secret')
 # button_3 = types.KeyboardButton(text='/Admin')
 kb_client.add(button_1, button_2)#, button_3)
 
-
-
-
 main_inline_keyboard = types.InlineKeyboardMarkup(row_width=5)
-main_inline_keyboard.add(types.InlineKeyboardButton(text='🚙 Auto', callback_data='open_main_inkb_car'))
-main_inline_keyboard.add(types.InlineKeyboardButton(text='🚲 Motorbike', callback_data='open_main_inkb_mot'))
-
+main_inline_keyboard.add(
+    types.InlineKeyboardButton(text='🚙 Auto', callback_data='open_main_inkb_car')
+)
+main_inline_keyboard.add(
+    types.InlineKeyboardButton(text='🚲 Motorbike', callback_data='open_main_inkb_mot')
+)
 
 cars_submenu_inline_keyboard = types.InlineKeyboardMarkup(row_width=2)
-car_b_1 = types.InlineKeyboardButton(text=str('Lexus'), callback_data='open_models_submenu_inkb_car_lexus')
-car_b_2 = types.InlineKeyboardButton(text=str('Audi'), callback_data='open_models_submenu_inkb_car_audi')
-car_b_3 = types.InlineKeyboardButton(text=str('BMW'), callback_data='open_models_submenu_inkb_car_bmw')
-car_b_4 = types.InlineKeyboardButton(text=str('Mercedes-Benz'), callback_data='open_models_submenu_inkb_car_mers')
-car_b_5 = types.InlineKeyboardButton(text=str('⬅ Back ⬅'), callback_data='Back_on_main_menu_car')
-cars_submenu_inline_keyboard.row(car_b_1, car_b_2).row(car_b_3, car_b_4).add(car_b_5)
-
-
+car_buttons = [
+    types.InlineKeyboardButton(text='Lexus', callback_data='open_models_submenu_inkb_car_lexus'),
+    types.InlineKeyboardButton(text='Audi', callback_data='open_models_submenu_inkb_car_audi'),
+    types.InlineKeyboardButton(text='BMW', callback_data='open_models_submenu_inkb_car_bmw'),
+    types.InlineKeyboardButton(text='Mercedes-Benz', callback_data='open_models_submenu_inkb_car_mers'),
+    types.InlineKeyboardButton(text='⬅ Back ⬅', callback_data='Back_on_main_menu_car')
+]
+cars_submenu_inline_keyboard.row(*car_buttons)
 
 cars_submenu_models_lexus_inline_keyboard = types.InlineKeyboardMarkup()
-models_lexus_b_1 = types.InlineKeyboardButton(text='LX', callback_data='cars_submenu_models_lexus_inline_button:1')
-models_lexus_b_2 = types.InlineKeyboardButton(text='RX', callback_data='cars_submenu_models_lexus_inline_button:2')
-models_lexus_b_3 = types.InlineKeyboardButton(text='⬅ Back ⬅', callback_data='Back_on_main_menu_car_brand')
-cars_submenu_models_lexus_inline_keyboard.row(models_lexus_b_1, models_lexus_b_2).add(models_lexus_b_3)
-
+models_lexus_buttons = [
+    types.InlineKeyboardButton(text='LX', callback_data='cars_submenu_models_lexus_inline_button:1'),
+    types.InlineKeyboardButton(text='RX', callback_data='cars_submenu_models_lexus_inline_button:2'),
+    types.InlineKeyboardButton(text='⬅ Back ⬅', callback_data='Back_on_main_menu_car_brand')
+]
+cars_submenu_models_lexus_inline_keyboard.row(*models_lexus_buttons)
 
 cars_submenu_models_audi_inline_keyboard = types.InlineKeyboardMarkup()
-models_audi_b_1 = types.InlineKeyboardButton(text='A6', callback_data='audi_a6')
-models_audi_b_2 = types.InlineKeyboardButton(text='A7', callback_data='audi_a7')
-models_audi_b_3 = types.InlineKeyboardButton(text='⬅ Back ⬅', callback_data='back_out')
-cars_submenu_models_audi_inline_keyboard.row(models_audi_b_1, models_audi_b_2).add(models_audi_b_3)
+models_audi_buttons = [
+    types.InlineKeyboardButton(text='A6', callback_data='audi_a6'),
+    types.InlineKeyboardButton(text='A7', callback_data='audi_a7'),
+    types.InlineKeyboardButton(text='⬅ Back ⬅', callback_data='back_out')
+]
+cars_submenu_models_audi_inline_keyboard.row(*models_audi_buttons)
 
 cars_submenu_models_bmw_inline_keyboard = types.InlineKeyboardMarkup()
-models_bmw_b_1 = types.InlineKeyboardButton(text='X5(E53)', callback_data='cars_bmw_submenu_inkb:x5')
-models_bmw_b_2 = types.InlineKeyboardButton(text='X6M', callback_data='cars_bmw_submenu_inkb:x6m')
-models_bmw_b_3 = types.InlineKeyboardButton(text='⬅ Back ⬅', callback_data='back_out_on_bmw')
-cars_submenu_models_bmw_inline_keyboard.row(models_bmw_b_1, models_bmw_b_2).add(models_bmw_b_3)
+models_bmw_buttons = [
+    types.InlineKeyboardButton(text='X5(E53)', callback_data='cars_bmw_submenu_inkb:x5'),
+    types.InlineKeyboardButton(text='X6M', callback_data='cars_bmw_submenu_inkb:x6m'),
+    types.InlineKeyboardButton(text='⬅ Back ⬅', callback_data='back_out_on_bmw')
+]
+cars_submenu_models_bmw_inline_keyboard.row(*models_bmw_buttons)
 
 cars_submenu_models_mers_inline_keyboard = types.InlineKeyboardMarkup()
-models_mers_b_1 = types.InlineKeyboardButton(text='CLS(5.5)', callback_data='cars_mers_submenu_inkb:cls')
-models_mers_b_2 = types.InlineKeyboardButton(text='W140', callback_data='cars_mers_submenu_inkb:w140')
-models_mers_b_3 = types.InlineKeyboardButton(text='⬅ Back ⬅', callback_data='back_out_on_mers')
-cars_submenu_models_mers_inline_keyboard.row(models_mers_b_1, models_mers_b_2).add(models_mers_b_3)
+models_mers_buttons = [
+    types.InlineKeyboardButton(text='CLS(5.5)', callback_data='cars_mers_submenu_inkb:cls'),
+    types.InlineKeyboardButton(text='W140', callback_data='cars_mers_submenu_inkb:w140'),
+    types.InlineKeyboardButton(text='⬅ Back ⬅', callback_data='back_out_on_mers')
+]
+cars_submenu_models_mers_inline_keyboard.row(*models_mers_buttons)
 
 mots_submenu_inline_keyboard = types.InlineKeyboardMarkup(row_width=5)
-mot_b_1 = types.KeyboardButton(text='BMW', callback_data='mot_submenu_inline_button:1')
-mot_b_2 = types.KeyboardButton(text='Kawasaki', callback_data='mot_submenu_inline_button:2')
-mot_b_3 = types.KeyboardButton(text='⬅ Back ⬅', callback_data='Back_on_main_menu_mot')
-mots_submenu_inline_keyboard.row(mot_b_1, mot_b_2).add(mot_b_3)
-
-
-
-
+mot_buttons = [
+    types.KeyboardButton(text='BMW', callback_data='mot_submenu_inline_button:1'),
+    types.KeyboardButton(text='Kawasaki', callback_data='mot_submenu_inline_button:2'),
+    types.KeyboardButton(text='⬅ Back ⬅', callback_data='Back_on_main_menu_mot')
+]
+mots_submenu_inline_keyboard.row(*mot_buttons)
 
 # mots_submenu_inline_keyboard.add(types.InlineKeyboardButton(text='BMW', callback_data='mot_submenu_inline_button:1'),
 #                                  types.InlineKeyboardButton(text='Kawasaki', callback_data='mot_submenu_inline_button:2')
