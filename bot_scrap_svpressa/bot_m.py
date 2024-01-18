@@ -1,55 +1,57 @@
 import os
 import logging
 import asyncio
-from handlers import client
 from dotenv import load_dotenv
 import aioschedule as schedule
 from aiogram import Dispatcher, Bot
-from functions.main import main_card_parse, sec_card_parse
+from main import main_card_parse, sec_card_parse
+from aiogram.filters import CommandStart
+from aiogram.types import Message
+
 
 load_dotenv()
-
-logging.basicConfig(level=logging.INFO)
 bot = Bot(os.getenv('TOKEN'), parse_mode="HTML")
 dp = Dispatcher(bot=bot)
 
 async def main():
-    dp.include_routers(client.router)
+    logging.basicConfig(level=logging.INFO)
     await bot.delete_webhook(drop_pending_updates=True)
     scheduler_task = asyncio.create_task(scheduler())  
     await dp.start_polling(bot)
-    await scheduler_task  
+    await scheduler_task
 
 
-
-last_main_article_data = None
-last_sec_articles = []
+@dp.message(CommandStart())
+async def start(message: Message):
+    await message.answer(text="Привет, я бот по статьям")
 
 async def check_and_send_updates():
-    global last_main_article_data, last_sec_articles
+    main_articles_data = main_card_parse()
 
-    main_article_data = main_card_parse()
-    if main_article_data and main_article_data != last_main_article_data:
-        last_main_article_data = main_article_data
-        main_article_text = "\n".join(main_article_data)
+    for main_article_data in main_articles_data:
+        title = main_article_data["title"]
+        subtitle = main_article_data["subtitle"]
+        text_paragraph = "\n".join(main_article_data["text_paragraphs"])
+        img_url = main_article_data["img_url"]
+        main_article_text = f"{title}\n{subtitle}\n{text_paragraph}\n{img_url}"
         await bot.send_message(chat_id=os.getenv('CHAT_ID'), text=main_article_text)
+        await asyncio.sleep(2)
 
-    sec_articles = sec_card_parse()
-    for article_data in sec_articles:
-        if article_data['title'] not in [article['title'] for article in last_sec_articles]:
-            last_sec_articles.append(article_data)
-            article_text = "\n".join([
-                f"<b>{article_data['title']}</b>",
-                article_data['subtitle'],
-                *article_data['text_paragraphs']
-            ])
-            if article_data['img_url']:
-                article_text += f"\n{article_data['img_url']}"
-            await bot.send_message(chat_id=os.getenv('CHAT_ID'), text=article_text)
-            await asyncio.sleep(10)
+    sec_articles_data = sec_card_parse()
+
+    for article_data in sec_articles_data:
+        title = article_data["title"]
+        subtitle = article_data["subtitle"]
+        text_paragraphs = "\n".join(article_data["text_paragraphs"])
+        img_url = article_data["img_url"]
+        article_text = f"{title}\n{subtitle}\n{text_paragraphs}\n{img_url}"
+        await bot.send_message(chat_id=os.getenv('CHAT_ID'), text=article_text)
+        await asyncio.sleep(2)
+
+
 
 async def scheduler():
-    schedule.every(1).minutes.do(check_and_send_updates)
+    schedule.every(5).minutes.do(check_and_send_updates)
     while True:
         await schedule.run_pending()
         await asyncio.sleep(1)
