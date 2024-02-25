@@ -1,0 +1,1 @@
+from . import text_for_bot
